@@ -1,0 +1,134 @@
+* , *::after , *::before{
+  box-sizing: border-box;
+}
+/* makes styling widths and heights easy everything selectior with before and after */
+
+:root{
+ 
+  /* now in this line we calulated the size of the x and the os as 90% of the siz3e of the cell this is why we ceated the root class to calc the size */
+
+  --cell-size :100px;
+  --mark-size : calc(var(--cell-size)*0.9);
+}
+/* root lets us declare css variables which are used in the .cell like a global variable and the adv of tis is that it can be computed */
+
+body{
+  margin: 0;
+  /* we made margin 0 to make black translucent screen easy to put in place  */
+}
+
+.board{
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+
+  /* grid coulumns auto sized 3 times repeated */
+  grid-template-columns: repeat(3 , auto);
+  
+  /* this is to center the x and the os in the box */
+  justify-items: center;
+  align-items: center;
+}
+
+.cell{
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: 2px solid black;
+  /* display the contents of the cell */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  /* for the hower feature to animate things add cursor */
+  cursor: pointer;
+}
+
+/* now we will remove the outer border or the margin that had formed around our grid */
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3){
+border-top: none;
+}
+
+/* runs for all n values so 0=>0 , 1=>4 , 3=>7 */
+.cell:nth-child(3n+1){
+  border-left: none;
+}
+
+.cell:nth-child(3n+3){
+border-right: none;
+}
+
+.cell:last-child,
+.cell:nth-child(7),
+.cell:nth-child(8){
+  border-bottom: none;
+}
+
+/* now we will work on individual x and os that go inside our cells . if we just use x in html like cali then we have to worry abt its size and how it looks on diff browsers and studd like that */
+
+.cell.x::before,
+.cell.x::after,
+.board.x.cell:hover::before,
+.board.x.cell:hover::after{
+  content: '';
+  /* to prevent the 2 lines overlapping */
+  position: absolute;
+  /* forming the x */
+  width: calc(var(--mark-size)*.15);
+  height: var(--mark-size);
+  background-color: black;
+}
+
+/* now we were rendering 2 ls now wew will rotate it to make an x */
+
+.cell.x::before,
+.board.x.cell:hover::before{
+  transform: rotate(45deg);
+}
+
+.cell.x::after,
+.board.x.cell:hover::after{
+  transform: rotate(-45deg);
+}
+/* 
+there is an offset in the doc and the two lines are displayed next to each other */
+  /* now we wll make the o */
+
+  .cell.circle::before,
+.cell.circle::after{
+  content: '';
+  /* to prevent the 2 lines overlapping */
+  position: absolute;
+  /* forming the o height and width is same */
+  width: var(--mark-size);
+  height: var(--mark-size);
+  /* border raduis makes the thing a circle or else it is a sq */
+  border-radius: 50%;
+  background-color: black;
+}
+
+.cell.circle::before{
+  width: var(--mark-size);
+  height: var(--mark-size);
+  background-color: black;
+}
+
+.cell.circle::after{
+  width:calc(var(--mark-size)*.7);
+  height:calc(var(--mark-size)*.7);
+  background-color: white;
+}
+
+
+/* if the cell already has an x or an o then change the cursor to not allowed */
+.cell.x,
+.cell.circle{
+  cursor: not-allowed;
+}
+
+/* let us now see the cover effect */
+/* select the board when it has the x class applied to it then we get the cell inside the board and want to do something on the hover */
+/* shud rewind to this point */
